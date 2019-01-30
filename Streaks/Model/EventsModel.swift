@@ -24,42 +24,42 @@ class EventsModel: NSObject {
         print("File URL: \(fileURL.absoluteString)")
         
         // For Not-Testing
-//        let fileManager = FileManager.default
-//        if fileManager.fileExists(atPath: fileURL.path) {
-//
-//            // Decode events data from documents into array
-//            do {
-//                let jsonDecoder = JSONDecoder()
-//                let jsonData = try Data(contentsOf: fileURL)
-//                events = try jsonDecoder.decode([Event].self, from: jsonData)
-//            } catch {
-//                print(error)
-//            }
-//
-//            for event in events {
-//                print(event.description())
-//            }
-//
-//        } else {
-//            print("'events.plist' not yet created.")
-//        }
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: fileURL.path) {
+
+            // Decode events data from documents into array
+            do {
+                let jsonDecoder = JSONDecoder()
+                let jsonData = try Data(contentsOf: fileURL)
+                events = try jsonDecoder.decode([Event].self, from: jsonData)
+            } catch {
+                print(error)
+            }
+
+            for event in events {
+                print(event.description())
+            }
+
+        } else {
+            print("'events.plist' not yet created.")
+        }
         
         // For Testing
-        let now = Date()
-        print("Now: \(now)")
-
-        let deadlineDate1 = now.addingTimeInterval(86430)
-        let prevDeadlineDate1 = now.addingTimeInterval(30)
-        let event1 = Event(withName: "Event 1", withFrequency: .daily, requiresLocation: false)
-        event1.currentStreak = 12
-        event1.bestStreak = 12
-        event1.totalNum = 12
-        event1.completedNum = 12
-        event1.completionRate = 12.0/12.0
-        event1.isCompleted = true
-        event1.deadlineDate = deadlineDate1
-        event1.prevDeadlineDate = prevDeadlineDate1
-        events.append(event1)
+//        let now = Date()
+//        print("Now: \(now)")
+//
+//        let deadlineDate1 = now.addingTimeInterval(86430)
+//        let prevDeadlineDate1 = now.addingTimeInterval(30)
+//        let event1 = Event(withName: "Event 1", withFrequency: .daily, requiresLocation: false)
+//        event1.currentStreak = 12
+//        event1.bestStreak = 12
+//        event1.totalNum = 12
+//        event1.completedNum = 12
+//        event1.completionRate = 12.0/12.0
+//        event1.isCompleted = true
+//        event1.deadlineDate = deadlineDate1
+//        event1.prevDeadlineDate = prevDeadlineDate1
+//        events.append(event1)
 
 //        let deadlineDate2 = now.addingTimeInterval(30)
 //        let event2 = Event(withName: "Event 2", withFrequency: .daily, requiresLocation: false)

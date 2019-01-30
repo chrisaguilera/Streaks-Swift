@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+protocol EventTableViewCellDelegate: class {
+    func invalidLocationForCheckIn()
+}
+
 class EventTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -19,6 +23,7 @@ class EventTableViewCell: UITableViewCell {
     
     var event: Event!
     var completionHandler: (() -> Void)!
+    weak var delegate: EventTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -74,8 +79,7 @@ class EventTableViewCell: UITableViewCell {
             if mapRect.contains(currentPoint) {
                 complete()
             } else {
-                // TO-DO: Alert
-                print("Not in region")
+                delegate?.invalidLocationForCheckIn()
             }
             
             // TO-DO: Should I delete Location Manager?

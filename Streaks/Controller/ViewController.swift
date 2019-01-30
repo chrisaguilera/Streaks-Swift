@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, EventTableViewCellDelegate {
+
     @IBOutlet weak var tableView: UITableView!
     
     let eventsModel = EventsModel.sharedModel
@@ -19,6 +19,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         // Loop through all events (?)
         self.startTimer()
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        backItem.tintColor = UIColor(red: 246.0/255.0, green: 77.0/255.0, blue: 93.05/255.0, alpha: 1.0)
+        navigationItem.backBarButtonItem = backItem
         
         super.viewDidLoad()
     }
@@ -50,6 +55,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             tableView.reloadData()
         }
         
+        // VC adopts EventTableViewCellDelegate protocol
+        cell.delegate = self
+        
         cell.updateTableViewCell()
         
         return cell
@@ -70,6 +78,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    // MARK: EventTableViewCellDelegate
+    
+    func invalidLocationForCheckIn() {
+        // Alert
+        let alertController = UIAlertController(title: "Check-In Required", message: "You must be within the map region to complete the event", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Okay", style: .default) { (action: UIAlertAction) in
+            print("User chose default action - Not in region - VC")
+        }
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true)
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,6 +98,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             epvc = segue.destination as? EventPageViewController
             
             epvc.event = eventsModel.events[selectedCellSection!]
+        
+            // Set Navigation Title to event name
+//            epvc.navigationItem.title = epvc.event.name
             
             // TO-DO: Check if deadline(s) has been reached before loading EPVC
             

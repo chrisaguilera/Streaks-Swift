@@ -84,7 +84,7 @@ class EventPageViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 107
+            return 114
         } else if indexPath.section == 1 {
             return 142
         } else {
@@ -123,12 +123,19 @@ class EventPageViewController: UIViewController, UITableViewDataSource, UITableV
             let currentPoint = MKMapPoint.init(currentLocation!.coordinate)
             
             let locationCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as! LocationTableViewCell
+            // In region
             if locationCell.mapView.visibleMapRect.contains(currentPoint) {
                 complete()
-            } else {
-                // Not in region
-                // TO-DO: Alert
-                print("Not in region")
+            }
+            // Not in region
+            else {
+                // Alert
+                let alertController = UIAlertController(title: "Check-In Required", message: "You must be within the map region to complete the event", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "Okay", style: .default) { (action: UIAlertAction) in
+                        print("User chose default action - Not in region - EPVC")
+                }
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true)
             }
         } else {
             complete()
