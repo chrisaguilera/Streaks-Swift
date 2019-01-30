@@ -50,12 +50,12 @@ class EventsModel: NSObject {
 //
 //        let deadlineDate1 = now.addingTimeInterval(86430)
 //        let prevDeadlineDate1 = now.addingTimeInterval(30)
-//        let event1 = Event(withName: "Event 1", withFrequency: .daily, requiresLocation: false)
-//        event1.currentStreak = 12
-//        event1.bestStreak = 12
-//        event1.totalNum = 12
-//        event1.completedNum = 12
-//        event1.completionRate = 12.0/12.0
+//        let event1 = Event(withName: "Event 2", withFrequency: .daily, requiresLocation: false)
+//        event1.currentStreak = 8
+//        event1.bestStreak = 8
+//        event1.totalNum = 10
+//        event1.completedNum = 8
+//        event1.completionRate = 8.0/10.0
 //        event1.isCompleted = true
 //        event1.deadlineDate = deadlineDate1
 //        event1.prevDeadlineDate = prevDeadlineDate1

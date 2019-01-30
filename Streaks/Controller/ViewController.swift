@@ -78,6 +78,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            // Delete the section from the data source
+            eventsModel.removeEventAtIndex(indexPath.section)
+            
+            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .none)
+        }
+    }
+    
     // MARK: EventTableViewCellDelegate
     
     func invalidLocationForCheckIn() {

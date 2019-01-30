@@ -34,7 +34,11 @@ class StreakTableViewCell: UITableViewCell {
     func updateTableViewCell() {
         currentStreakLabel.text = String(event!.currentStreak)
         bestStreakLabel.text = String(event!.bestStreak)
-        completionRateLabel.text = String(event!.completionRate * 100)
+        
+        // If completionRate is whole number remove decimal places
+        let stringValue = (event!.completionRate * 100) == floor(event!.completionRate * 100) ? String(format: "%.0f", event!.completionRate * 100) : String(format: "%.2f", event!.completionRate * 100)
+        completionRateLabel.text = stringValue + "%"
+        
         if event!.totalNum == 0 {
             streakProgressView.setProgress(0.0, animated: false)
             completionProgressView.setProgress(0.0, animated: false)

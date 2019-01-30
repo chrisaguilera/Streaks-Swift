@@ -52,38 +52,47 @@ class AddEventViewController: UIViewController, CLLocationManagerDelegate, UITex
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        let name = nameTextField.text!
-        nameTextField.resignFirstResponder()
         
-        let frequency: EventFrequency
-        if frequencySegmentedControl.selectedSegmentIndex == 0 {
-            frequency = .daily
-        } else if frequencySegmentedControl.selectedSegmentIndex == 1 {
-            frequency = .weekly
+        if nameTextField.text == "" {
+            // Alert - Empty text field
+            let alertController = UIAlertController(title: "Empty Text Field", message: "The text field must not be empty", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Okay", style: .default)
+            alertController.addAction(alertAction)
+            present(alertController, animated: true)
         } else {
-            frequency = .monthly
+            let name = nameTextField.text!
+            nameTextField.resignFirstResponder()
+            
+            let frequency: EventFrequency
+            if frequencySegmentedControl.selectedSegmentIndex == 0 {
+                frequency = .daily
+            } else if frequencySegmentedControl.selectedSegmentIndex == 1 {
+                frequency = .weekly
+            } else {
+                frequency = .monthly
+            }
+            
+            let locationRequired: Bool
+            if locationSwitch.isOn {
+                locationRequired = true
+            } else {
+                locationRequired = false
+            }
+            
+            let event = Event(withName: name, withFrequency: frequency, requiresLocation: locationRequired)
+            
+            // Coordinate region
+            if locationRequired {
+                let coordinateRegion = MKCoordinateRegion.init(mapView.visibleMapRect)
+                event.latitude = coordinateRegion.center.latitude
+                event.longitude = coordinateRegion.center.longitude
+                event.latitudeDelta = coordinateRegion.span.latitudeDelta
+                event.longitudeDelta = coordinateRegion.span.longitudeDelta
+            }
+            
+            EventsModel.sharedModel.addEvent(event)
+            completionHandler()
         }
-        
-        let locationRequired: Bool
-        if locationSwitch.isOn {
-            locationRequired = true
-        } else {
-            locationRequired = false
-        }
-        
-        let event = Event(withName: name, withFrequency: frequency, requiresLocation: locationRequired)
-        
-        // Coordinate region
-        if locationRequired {
-            let coordinateRegion = MKCoordinateRegion.init(mapView.visibleMapRect)
-            event.latitude = coordinateRegion.center.latitude
-            event.longitude = coordinateRegion.center.longitude
-            event.latitudeDelta = coordinateRegion.span.latitudeDelta
-            event.longitudeDelta = coordinateRegion.span.longitudeDelta
-        }
-        
-        EventsModel.sharedModel.addEvent(event)
-        completionHandler()
     }
     
     @IBAction func locationSwitchValueChanged(_ sender: UISwitch) {
