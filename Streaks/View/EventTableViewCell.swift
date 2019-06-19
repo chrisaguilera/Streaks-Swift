@@ -24,12 +24,20 @@ class EventTableViewCell: UITableViewCell {
     var event: Event!
     var completionHandler: (() -> Void)!
     weak var delegate: EventTableViewCellDelegate?
-
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.layer.cornerRadius = 5
         completeButton.setImage(UIImage(named: "check_gray"), for: UIControl.State.disabled)
+        self.layer.cornerRadius = 5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,6 +63,8 @@ class EventTableViewCell: UITableViewCell {
             availableLabel.text = "Now"
         }
     }
+    
+    
     
     @IBAction func completeButtonPressed(_ sender: Any) {
         

@@ -23,7 +23,6 @@ class EventPageViewController: UIViewController, UITableViewDataSource, UITableV
 
         // Do any additional setup after loading the view.
         nameLabel.text = event.name
-        
         // Location Manager
         locationManager.delegate = self
         locationManager.distanceFilter = 1.0
@@ -145,13 +144,10 @@ class EventPageViewController: UIViewController, UITableViewDataSource, UITableV
     func complete() {
         // Update model
         event.completeEvent()
-        
         // Update view
         updateEventPage()
-        
         // Save model
         EventsModel.sharedModel.save()
-        
         // Update corresponding Event Table View Cell
         completionHandler()
     }
@@ -159,7 +155,6 @@ class EventPageViewController: UIViewController, UITableViewDataSource, UITableV
     func updateEventPage() {
         let streakTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! StreakTableViewCell
         let deadlineTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! DeadlineTableViewCell
-        
         streakTableViewCell.updateTableViewCell()
         deadlineTableViewCell.updateTableViewCell()
     }
